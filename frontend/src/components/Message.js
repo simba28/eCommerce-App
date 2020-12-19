@@ -4,7 +4,6 @@ import { Alert } from 'react-bootstrap'
 const Message = ({ variant, children }) => {
     return (
         <Alert variant={variant} >
-            {console.log(children, 'chhhhhhhhhhhhh')}
             {children}
         </Alert>
     )
