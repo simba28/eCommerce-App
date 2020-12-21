@@ -114,7 +114,6 @@ export const getUserDetails = ( id ) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.get(`/api/users/${id}`, config)
-        // console.log(data, 'data from action')
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -138,7 +137,7 @@ export const updateUserProfile = ( user ) => async (dispatch, getState) => {
         })
 
         const { userLogin: { userInfo }} = getState()
-        // destructing to get the tokin
+        // destructing to get the token
 
         const config = {
             headers: {

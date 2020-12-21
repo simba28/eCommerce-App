@@ -12,6 +12,7 @@ const ProfileScreen = ({ history }) => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [message, setMessage] = useState(null)
+    const [updateMessage, setUpdateMessage] = useState(null)
 
     const dispatch = useDispatch()
 
@@ -28,25 +29,28 @@ const ProfileScreen = ({ history }) => {
         if (!userInfo){
             history.push('/login')
         } else {
-            console.log(userInfo, 'userInfo')
-            console.log(user, 'userrrr')
             if(!user.name) {
-                console.log('dddddddddddddddddd')
                 dispatch(getUserDetails('profile'))
             } else {
-                console.log('pppppppppppppppp')
                 setName(user.name)
                 setEmail(user.email)
             }
         }
-    }, [dispatch, history, userInfo, user])
+
+        setTimeout(() => {
+            return setUpdateMessage(null)
+        }, 3000);
+
+    }, [dispatch, history, userInfo, user, updateMessage])
 
     const submitHandler = (e) => {
         e.preventDefault()
         if (password !== confirmPassword){
             setMessage('Passwords do not match')
         } else {
+            setMessage(null)
             dispatch(updateUserProfile({id: user._id, name, email, password}))
+            setUpdateMessage('Profile Updated')
         }
     }
 
@@ -56,7 +60,7 @@ const ProfileScreen = ({ history }) => {
                 <h2>User Profile</h2>
                 {message && <Message variant='danger'>{message}</Message>}
                 {error && <Message variant='danger'>{error}</Message>}
-                {success && <Message variant='success'>Profile Updated</Message>}
+                {success && updateMessage && <Message variant='success'>{updateMessage}</Message>}
                 {loading && <Loader />}
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
