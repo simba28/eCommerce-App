@@ -12,6 +12,8 @@ import ProfileScreen from './screens/ProfileScreen'
 import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
+import UserListScreen from './screens/UserListScreen'
+import OrderScreen from './screens/OrderScreen'
 
 
 function App() {
@@ -21,13 +23,15 @@ function App() {
       <main className='py-3'>
         <Container>
           <Route path='/shipping' component={ShippingScreen} />
+          <Route path='/order/:id' component={OrderScreen} />
           <Route path='/placeorder' component={PlaceOrderScreen} />
           <Route path='/payment' component={PaymentScreen} />
           <Route path='/login' component={LoginScreen} />
           <Route path='/register' component={RegisterScreen} /> 
           <Route path='/profile' component={ProfileScreen} /> 
           <Route path='/product/:id' component={ProductScreen} />
-          <Route path='/cart/:id?' component={CartScreen} /> 
+          <Route path='/cart/:id?' component={CartScreen} />
+          <Route path='/admin/userlist' component={UserListScreen} />
           <Route path='/' component={HomeScreen} exact />
           {/* '?' is used with the params to make that as optional param */}
         </Container>
