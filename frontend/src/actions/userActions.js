@@ -21,6 +21,9 @@ import {
     USER_DELETE_REQUEST,
     USER_DELETE_SUCCESS,
     USER_DELETE_FAIL,
+    USER_UPDATEBY_ADMIN_REQUEST,
+    USER_UPDATEBY_ADMIN_SUCCESS,
+    USER_UPDATEBY_ADMIN_FAIL,
 } from "../constants/userConstants"
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 
@@ -220,14 +223,47 @@ export const deleteUser = (id) => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.delete(`/api/users/${id}`, config)
+        await axios.delete(`/api/users/${id}`, config)
 
-        dispatch({
-            type: USER_DELETE_SUCCESS,
-        })
+        dispatch({ type: USER_DELETE_SUCCESS })
     } catch (error) {
         dispatch({
             type: USER_DELETE_FAIL,
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message, 
+        })
+    }
+}
+
+export const updateUserByAdmin = (user) => async (dispatch, getState) => {
+    // the inner function takes getState as the 2nd parameter
+    try {
+        dispatch({
+            type: USER_UPDATEBY_ADMIN_REQUEST,
+        })
+
+        const { userLogin: { userInfo }} = getState()
+        // destructing to get the token
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        const { data } = await axios.put(`/api/users/${user._id}`, user, config)
+
+        dispatch({ type: USER_UPDATEBY_ADMIN_SUCCESS })
+
+        dispatch({
+            type: USER_DETAILS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: USER_UPDATEBY_ADMIN_FAIL,
             payload: error.response && error.response.data.message
                 ? error.response.data.message
                 : error.message, 
