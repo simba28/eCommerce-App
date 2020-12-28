@@ -13,6 +13,7 @@ import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import UserListScreen from './screens/UserListScreen'
+import ProductListScreen from './screens/ProductListScreen'
 import OrderScreen from './screens/OrderScreen'
 import UserEditScreen from './screens/UserEditScreen'
 
@@ -34,6 +35,7 @@ function App() {
           <Route path='/cart/:id?' component={CartScreen} />
           <Route path='/admin/userlist' component={UserListScreen} />
           <Route path='/admin/user/:id/edit' component={UserEditScreen} />
+          <Route path='/admin/productlist' component={ProductListScreen} />
           <Route path='/' component={HomeScreen} exact />
           {/* '?' is used with the params to make that as optional param */}
         </Container>
