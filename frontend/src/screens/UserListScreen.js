@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listUsers, deleteUser } from '../actions/userActions'
+import { removeOrder } from '../actions/orderActions'
+
 
 const UserListScreen = ({ history }) => {
     const dispatch = useDispatch()
@@ -29,6 +31,7 @@ const UserListScreen = ({ history }) => {
     const deleteHandler = (id, name) => {
         if ( window.confirm(`Are you sure? This will delete ${name}'s account permanently`)){
             dispatch(deleteUser(id))
+            dispatch(removeOrder(id))
         }
     }
 

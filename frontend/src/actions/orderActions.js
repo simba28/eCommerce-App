@@ -218,3 +218,35 @@ export const listOrders = () => async (dispatch, getState) => {
         })
     }
 }
+
+export const removeOrder = ( userId ) => async (dispatch, getState) => {
+    // the inner function takes getState as the 2nd parameter
+    try {
+        dispatch({
+            type: ORDER_CREATE_REQUEST,
+        })
+
+        const { userLogin: { userInfo }} = getState()
+        // destructing to get the token
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        await axios.delete(`/api/orders/user/${userId}`, config)
+        // console.log(data, 'data from action')
+
+        dispatch({
+            type: ORDER_CREATE_SUCCESS,
+        })
+    } catch (error) {
+        dispatch({
+            type: ORDER_CREATE_FAIL,
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message, 
+        })
+    }
+}

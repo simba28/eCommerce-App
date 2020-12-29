@@ -111,7 +111,40 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error('Order not found')
     }
- })
+})
+
+// @desc Delete order by Id
+// @route DELETE /api/orders/:id
+// @access Private/Admin
+const deleteOrderById = asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id)
+
+    if(order) {
+        await order.remove()
+        res.json({ message: 'Order removed'})
+    } else {
+        res.status(404)
+        throw new Error('Order not found')
+    }
+})
+
+// @desc Delete order by user
+// @route DELETE /api/orders/user/:userId
+// @access Private/Admin
+const deleteOrderByUser = asyncHandler(async (req, res) => {
+    const deletedOrder = await Order.deleteMany({ user: req.params.userId})
+
+    res.json({message: 'Orders removed'})
+    
+    // if(deletedOrder.deletedCount > 0) {
+    //     // await order.remove()
+    //     res.json({ message: 'Orders removed'})
+    // } 
+    // else {
+    //     res.status(404)
+    //     throw new Error('No Order found for this user')
+    // }
+})
 
 export {
     addOrderItems,
@@ -119,5 +152,7 @@ export {
     updateOrderToPaid,
     getMyOrders,
     getOrders,
-    updateOrderToDelivered
+    updateOrderToDelivered,
+    deleteOrderById,
+    deleteOrderByUser
 }

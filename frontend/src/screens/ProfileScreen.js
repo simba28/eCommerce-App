@@ -6,6 +6,8 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getUserDetails, updateUserProfile } from '../actions/userActions'
 import { listMyOrders } from '../actions/orderActions'
+import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
+import { USER_DETAILS_CLEAN } from '../constants/userConstants'
 
 const ProfileScreen = ({ history }) => {
     const [name, setName] = useState('')
@@ -30,6 +32,11 @@ const ProfileScreen = ({ history }) => {
     const { loading:loadingOrders, error:errorOrders, orders } = orderListMy
 
     useEffect(() => {
+        dispatch({ type: ORDER_LIST_MY_RESET })
+        dispatch({ type: USER_DETAILS_CLEAN })
+    }, [])
+
+    useEffect(() => {
         if (!userInfo){
             history.push('/login')
         } else {
@@ -46,7 +53,7 @@ const ProfileScreen = ({ history }) => {
             return setUpdateMessage(null)
         }, 3000);
 
-    }, [dispatch, history, userInfo, user, updateMessage])
+    }, [dispatch, history, userInfo, user, updateMessage, orders])
 
     const submitHandler = (e) => {
         e.preventDefault()
