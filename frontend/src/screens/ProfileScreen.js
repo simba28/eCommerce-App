@@ -63,6 +63,7 @@ const ProfileScreen = ({ history }) => {
             setMessage(null)
             dispatch(updateUserProfile({id: user._id, name, email, password}))
             setUpdateMessage('Profile Updated')
+            dispatch({ type: USER_DETAILS_CLEAN })
         }
     }
 
