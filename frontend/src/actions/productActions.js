@@ -22,12 +22,14 @@ import {
 
 // redux thunk allows to add a function within a function
 // why not directly ?????????
-export const listProducts = () => async ( dispatch ) => {
+export const listProducts = (keyword = '', pageNumber = '') => async ( dispatch ) => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST })
 
-        const { data } = await axios.get('/api/products')
-        // console.log(data, 'actionRedux')
+        const { data } = await axios.get(
+            `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+        )
+        // & is used for more than one query keywords
 
         dispatch({ 
             type: PRODUCT_LIST_SUCCESS,
