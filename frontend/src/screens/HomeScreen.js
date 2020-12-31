@@ -10,7 +10,7 @@ import Meta from '../components/Meta';
 import { Row, Col } from 'react-bootstrap';
 import { listProducts } from '../actions/productActions'
 
-const HomeScreen = ({ match}) => {
+const HomeScreen = ({ match }) => {
     const keyword = match.params.keyword
 
     const pageNumber = match.params.pageNumber || 1
@@ -32,13 +32,18 @@ const HomeScreen = ({ match}) => {
                     Go Back
                 </Link>
             )}
-            <h1>Latest Products</h1>
             {loading ? (
                 <Loader />
             ) : error ? (
                 <Message variant='danger'>{error}</Message>
             ) : (
                 <>
+                {products.length === 0 ? (
+                    keyword ? (<h1>Sorry! No Product Matched Your Search</h1>
+                    ) : (
+                        <h1>No Products Available</h1>
+                    )
+                ) : <h1>Products</h1> }
                 <Row>
                     {products.map(product => (
                         <Col key={product._id} sm={12} md={6} lg={4} xl={3}>

@@ -6,6 +6,7 @@ import Message from '../components/Message'
 import CheckOutSteps from '../components/CheckOutSteps'
 import { createOrder } from '../actions/orderActions'
 import { ORDER_CREATE_RESET } from '../constants/orderConstants'
+import { CART_EMPTY } from '../constants/cartConstants'
 
 const PlaceOrderScreen = ({ history }) => {
     const dispatch = useDispatch()
@@ -31,13 +32,19 @@ const PlaceOrderScreen = ({ history }) => {
     const { order, success, error } = orderCreate
 
     useEffect(() => {
+        console.log('1st useEffect')
+        console.log(success, 'success 1st')
         dispatch({ type: ORDER_CREATE_RESET })
-    }, [])
+        console.log(success, 'success 1st after dispatch')
+    }, [])// eslint-disable-next-line react-hooks/exhaustive-deps
     
     useEffect(() => {
+        console.log('2nd useEffect')
+        console.log(success, 'success')
         if (success) {
             history.push(`/order/${order._id}`)
         }
+        // dispatch({ type: ORDER_CREATE_RESET })
         // eslint-disable-next-line
     }, [history, success])
 
@@ -52,6 +59,7 @@ const PlaceOrderScreen = ({ history }) => {
             totalPrice: cart.totalPrice,
 
         }))
+        dispatch({ type: CART_EMPTY })
     }
 
     return (
